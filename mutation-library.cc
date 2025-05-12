@@ -1545,7 +1545,6 @@ char separators[] = {
 
 void printHexData(const unsigned char* data, size_t size) {
   for (size_t i = 0; i < size; ++i) {
-    // Print each byte as a two-digit hexadecimal number
     std::cout << std::hex << (data[i] >> 4) << (data[i] & 0x0F);
   }
   std::cout << std::endl;
@@ -1613,7 +1612,7 @@ uint32_t get_mutated_integer(uint32_t original_num){
 
 double get_mutated_double(double original_num) {
     
-    // Generate a random choice
+    // Pick random mutation
     int randChoice = rand() % 13;
 
     switch (randChoice) {
@@ -1644,12 +1643,12 @@ double get_mutated_double(double original_num) {
     case 12:
         return original_num - static_cast<double>(rand());
     }
-    return 0.0; // Default return value (should not be reached)
+    return 0.0;
 }
 
 double get_safe_mutated_double(my_mutator_t *data, double original_num) {
     
-    // Generate a random choice
+    // Pick random mutation
     int randChoice = rand() % 12;
 
     switch (randChoice) {
@@ -1678,7 +1677,7 @@ double get_safe_mutated_double(my_mutator_t *data, double original_num) {
     case 11:
         return original_num - (-1.0 + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX) / 2.0));
     }
-    return 0.0; // Default return value (should not be reached)
+    return 0.0;
 }
 
 
@@ -1691,8 +1690,6 @@ std::string get_mutated_string(my_mutator_t *data, std::string mutate_string){
     if(data->key_mutation_size <= mutate_string.size()){
       return mutate_string;
     }
-
-    //key_string.erase(0, 1);
 
     // Place decoded data into buf
     std::memcpy(data->key_mutation, mutate_string.data(), mutate_string.size());
@@ -1738,27 +1735,22 @@ int is_value_replaceable(rapidjson::Value& key){
   if(key.GetStringLength() >= 4){
 
     if(key.IsString() && strcmp(key.GetString(), "value") == 0){
-      //std::cout << "STOP: data!" << std::endl;
       return 0;
     }
 
     if(key.IsString() && strcmp(key.GetString(), "stream") == 0){
-      //std::cout << "STOP: data!" << std::endl;
       return 0;
     }
 
     if(key.IsString() && strcmp(key.GetString(), "data") == 0){
-      //std::cout << "STOP: data!" << std::endl;
       return 0;
     }
 
     if(key.IsString() && strcmp(key.GetString(), "dict") == 0){
-      //std::cout << "STOP: data!" << std::endl;
       return 0;
     }
 
     if(key.GetString()[0] == 'o' && key.GetString()[1] == 'b' && key.GetString()[2] == 'j' && key.GetString()[3] == ':'){
-      //std::cout << "STOP: obj!" << std::endl;
       return 0;
     }
   }
@@ -1805,26 +1797,26 @@ bool isInteger(const std::string& str) {
     if (str.empty()) return false;
 
     std::size_t i = 0;
-    if (str[i] == '-' || str[i] == '+') ++i; // Handle sign
+    if (str[i] == '-' || str[i] == '+') ++i;
 
     bool hasDigits = false;
     for (; i < str.size(); ++i) {
         if (std::isdigit(str[i])) {
             hasDigits = true;
         } else {
-            return false; // Non-numeric character found
+            return false;
         }
     }
 
-    if (!hasDigits) return false; // Must have at least one digit
+    if (!hasDigits) return false; 
 
     try {
-        long long num = std::stoll(str); // Convert to long long to check range
+        long long num = std::stoll(str);
         if (num < std::numeric_limits<int>::min() || num > std::numeric_limits<int>::max()) {
-            return false; // Out of int range
+            return false;
         }
     } catch (const std::exception&) {
-        return false; // Exception (e.g., out of range)
+        return false;
     }
 
     return true;
@@ -1834,7 +1826,7 @@ bool isDouble(const std::string& str) {
     if (str.empty()) return false;
 
     std::size_t i = 0;
-    if (str[i] == '-' || str[i] == '+') ++i; // Handle signs
+    if (str[i] == '-' || str[i] == '+') ++i;
 
     bool hasDigits = false, hasDot = false, hasExponent = false;
     
@@ -1845,10 +1837,10 @@ bool isDouble(const std::string& str) {
             hasDot = true;
         } else if ((str[i] == 'e' || str[i] == 'E') && hasDigits && !hasExponent) {
             hasExponent = true;
-            hasDigits = false; // Reset hasDigits to ensure there's a number after 'e'
-            if (i + 1 < str.size() && (str[i + 1] == '-' || str[i + 1] == '+')) ++i; // Skip exponent sign
+            hasDigits = false;
+            if (i + 1 < str.size() && (str[i + 1] == '-' || str[i + 1] == '+')) ++i;
         } else {
-            return false; // Invalid character
+            return false;
         }
     }
     
@@ -1879,8 +1871,6 @@ void mutate_double(my_mutator_t *data, rapidjson::Value& value, rapidjson::Docum
 
   value.SetDouble(newValue);
 }
-
-//void mutate_key(my_mutator_t *data, rapidjson::Value& key, rapidjson::Document& document){
 
 void mutate_name_object(my_mutator_t *data, rapidjson::Value& key, rapidjson::Document& document){
   std::string new_key;
@@ -1936,7 +1926,6 @@ std::string mutate_stream_word(my_mutator_t *data, std::string initial_string){
         if (isInteger(initial_string)) {
             // Int
             new_string = std::to_string(get_mutated_integer(std::stoi(initial_string)));
-            //std::cout << "Int: " << new_string << std::endl;
         } else if(isDouble(initial_string)){
             // Double
             new_string = std::to_string(get_mutated_double(std::stod(initial_string)));
@@ -2014,7 +2003,6 @@ int mutate_text_stream(my_mutator_t *data, u32 init_len, u32 max_len) {
 
     for (auto& w : words) {
         if (mutation_chance(mutation_rate)) {
-            //std::cout << "MUTATED ITEM" << std::endl;
             w = mutate_stream_word(data, w);
         }
     }
@@ -2045,7 +2033,6 @@ int mutate_text_stream(my_mutator_t *data, u32 init_len, u32 max_len) {
         return result.size();
 
     } else {
-        //std::cerr << "Result string exceeds max_size" << std::endl;
         return init_len;
     }
 }
@@ -2193,13 +2180,11 @@ int add_array_element(my_mutator_t* data, rapidjson::Value& array, rapidjson::Do
 int remove_array_element(my_mutator_t* data, rapidjson::Value& array, rapidjson::Document& document){
 
   if (!array.IsArray() || array.Empty()) {
-    return 0; // Do nothing if it's not an array or is already empty
+    return 0;
   }
 
-  // Select a random index to remove
+  // Select random index to remove
   int indexToRemove = randomness(data, array.Size());
-
-  // Remove the element at the selected index
   array.Erase(array.Begin() + indexToRemove);
 
   return 0;
@@ -2211,25 +2196,19 @@ int swap_value(my_mutator_t* data, rapidjson::Value& value, rapidjson::Document&
 
   rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
 
-  //std::cout << "Replace: " <<  << std::endl;
-
   if(random_num == 0){
     
     // Add a new integer element to the array
     int newValue = get_interesting_num();
 
-    //std::cout << "Swap: " << newValue << std::endl;
-
     // Replace the original value with the new value
-    value.SetInt(newValue);  // If newValue is an int
+    value.SetInt(newValue);  // INT
     
   }else if(random_num == 1){
 
     double newValue = get_safe_mutated_double(data, 0.0);
 
-    //std::cout << "Swap: " << newValue << std::endl;
-
-    value.SetDouble(newValue);  // If newValue is a double
+    value.SetDouble(newValue);  // DOUBLE
 
   }else if(random_num == 2){
     
@@ -2237,16 +2216,12 @@ int swap_value(my_mutator_t* data, rapidjson::Value& value, rapidjson::Document&
     size_t pdf_keys_len = sizeof(pdf_keys) / sizeof(pdf_keys[0]);
     std::string new_key = pdf_keys[randomness(data, pdf_keys_len)];
 
-    //std::cout << "Swap: " << new_key << std::endl;
-
     value.SetString(new_key.c_str(), allocator);
   }else if(random_num == 3){
     // Create a new array value
     rapidjson::Value newArray(rapidjson::kArrayType);
 
     newArray.PushBack(get_safe_mutated_double(data, 0.0), allocator);  // Add a double
-
-    //std::cout << "Swap: " << "SOME ARRAY" << std::endl;
 
     // Swap the old value with the new array
     value.Swap(newArray);
@@ -2274,9 +2249,6 @@ int swap_value(my_mutator_t* data, rapidjson::Value& value, rapidjson::Document&
                     nestedObject, 
                     allocator);
     }
-    
-
-    //std::cout << "Object: " << new_key.c_str() << std::endl;
 
     value.Swap(newObject);
 
@@ -2294,7 +2266,7 @@ void add_random_entry(my_mutator_t *data, rapidjson::Value &object, rapidjson::D
 
     rapidjson::Value key(new_key.c_str(), document.GetAllocator());
 
-    int random_value = 42; // Replace with an actual mutation logic
+    int random_value = get_interesting_num();
     rapidjson::Value value(random_value);
 
     swap_value(data, value, document);
@@ -2305,13 +2277,11 @@ void add_random_entry(my_mutator_t *data, rapidjson::Value &object, rapidjson::D
 void remove_random_entry(my_mutator_t *data, rapidjson::Value &object) {
     if (!object.IsObject() || object.MemberCount() == 0) return;
 
-    // Get a random index within the object's member count
+    // Get a random index
     std::size_t index = std::rand() % object.MemberCount();
-
-    // Iterator to the random entry
     rapidjson::Value::MemberIterator itr = object.MemberBegin();
     std::advance(itr, index);
 
-    // Erase the selected entry
+    // Remove
     object.RemoveMember(itr);
 }
