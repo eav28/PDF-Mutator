@@ -12,9 +12,19 @@ Install:
 git clone --recurse-submodules https://github.com/eav28/PDF-fuzzer.git
 ```
 
-How to build:
+How to build custom mutators:
 
 ```
+mkdir build
+cd build
+cmake ..
+make
+```
+
+How to build preprocessing tool:
+
+```
+cd PDF-Preprocess
 mkdir build
 cd build
 cmake ..
@@ -31,7 +41,7 @@ export AFL_CUSTOM_MUTATOR_ONLY=1
 Use the PDF-Preprocessing tool:
 
 ```
-./pdf-preprocess [input] [output] -- /path/to/target_app [ ... ]
+./pdf-preprocess -i [input] -o [output] [Options to use for afl-cmin] -- /path/to/target_app [ ... ]
 ```
 
 Then run AFL++ as normal.
