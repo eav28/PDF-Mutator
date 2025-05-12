@@ -1,0 +1,7 @@
+
+#define MAX_MUTATION_BUF (32 * 1024L)
+#define MAX_DUPLICATION_BUF (16 * 1024L)
+#define MAX_KEY_BUF (1 * 1024L)
+
+
+
