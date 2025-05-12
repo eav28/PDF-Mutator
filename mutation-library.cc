@@ -1611,7 +1611,7 @@ uint32_t get_mutated_integer(uint32_t original_num){
     return num;
 }
 
-double get_mutated_double(my_mutator_t *data, double original_num) {
+double get_mutated_double(double original_num) {
     
     // Generate a random choice
     int randChoice = rand() % 13;
@@ -1914,7 +1914,7 @@ std::string get_new_stream_word(my_mutator_t *data){
         new_string = std::to_string(get_mutated_integer(0));
     } else if(randomizer == 1){
         // Double
-        new_string = std::to_string(get_mutated_double(data, 0.0));
+        new_string = std::to_string(get_mutated_double(0.0));
     }else if(randomizer == 2){
         // Name object
         new_string = get_random_key();
@@ -1938,7 +1938,7 @@ std::string mutate_stream_word(my_mutator_t *data, std::string initial_string){
             //std::cout << "Int: " << new_string << std::endl;
         } else if(isDouble(initial_string)){
             // Double
-            new_string = std::to_string(get_mutated_double(data, std::stod(initial_string)));
+            new_string = std::to_string(get_mutated_double(std::stod(initial_string)));
         }else if(is_key(initial_string)){
             // Name object
             new_string = get_random_key();
@@ -2181,7 +2181,7 @@ int add_array_element(my_mutator_t* data, rapidjson::Value& array, rapidjson::Do
   }else if(random_num == 2){
 
     // Add double
-    double newValue = get_mutated_double(data, 0.0);
+    double newValue = get_mutated_double(0.0);
     array.PushBack(newValue, allocator);
     
   }
@@ -2224,7 +2224,7 @@ int swap_value(my_mutator_t* data, rapidjson::Value& value, rapidjson::Document&
     
   }else if(random_num == 1){
 
-    double newValue = get_safe_mutated_double(data, 0.0); //get_mutated_double(data, 0.0);
+    double newValue = get_safe_mutated_double(data, 0.0);
 
     //std::cout << "Swap: " << newValue << std::endl;
 
