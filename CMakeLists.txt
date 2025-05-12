@@ -7,7 +7,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/rapidjson/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/cppcodec)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AFLplusplus-dependencies)
 
-
 add_library(data SHARED qpdf_data_mutator.cc mutation-library.cc)
 
 add_library(structure SHARED qpdf_structure_mutator.cc mutation-library.cc)

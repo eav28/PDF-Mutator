@@ -5,8 +5,6 @@
 //
 
 #include "afl-fuzz.h"
-//#include "afl-mutations-modified.h"
-//#include "afl-mutations.h"
 
 #include "qpdf_mutator.hh"
 #include "mutation-library.h"
@@ -88,7 +86,6 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
   data->duplication_rate = DUPLICATION_RATE;
   data->replacement_rate = REPLACEMENT_RATE;
 
-  // Prepare a QPDF object and process the memory file
   QPDF qpdf;
   try {
     qpdf.setSuppressWarnings(true);

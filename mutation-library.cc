@@ -1,3 +1,9 @@
+//
+// mutation-library.cc built for fuzzing PDF.
+// 
+// Author: Erik Viken
+//
+
 #include "afl-fuzz.h"
 //#include "afl-mutations.h"
 #include "afl-mutations-modified.h"
@@ -33,7 +39,11 @@
 // Variables
 // --------------------------
 
-// /TT2
+//
+// pdf_keys taken from AFLplusplus/dictionaries/pdf.dict
+//
+// Created by Ben Nagy <ben@iagu.net>
+//
 
 std::string pdf_keys[] = {
 "/",

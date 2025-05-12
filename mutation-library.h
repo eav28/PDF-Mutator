@@ -86,7 +86,6 @@ int is_key(rapidjson::Value& key);
 uint32_t get_interesting_num(my_mutator_t *data);
 void mutate_integer(my_mutator_t *data, rapidjson::Value& value, rapidjson::Document& document);
 void mutate_double(my_mutator_t *data, rapidjson::Value& value, rapidjson::Document& document);
-//void mutate_key(my_mutator_t *data, rapidjson::Value& key, rapidjson::Document& document);
 void mutate_name_object(my_mutator_t *data, rapidjson::Value& key, rapidjson::Document& document);
 int mutate_stream(my_mutator_t *data, rapidjson::Value& value, rapidjson::Document& document);
 int mutate_stream_default(my_mutator_t *data, rapidjson::Value& value, rapidjson::Document& document);
@@ -101,12 +100,6 @@ int swap_value(my_mutator_t* data, rapidjson::Value& value, rapidjson::Document&
 int is_value_replaceable(rapidjson::Value& key);
 void add_random_entry(my_mutator_t *data, rapidjson::Value &object, rapidjson::Document &document);
 void remove_random_entry(my_mutator_t *data, rapidjson::Value &object);
-
-//
-// pdf_keys taken from AFLplusplus/dictionaries/pdf.dict
-//
-// Created by Ben Nagy <ben@iagu.net>
-//
 
 extern std::string pdf_keys[];
 extern std::string stream_dict[];
