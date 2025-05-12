@@ -274,7 +274,7 @@ void modify_values(my_mutator_t *data, rapidjson::Value& value, rapidjson::Value
   if(is_key(parentKey)){
     if(should_mutate(data)){
       //std::cout << "KEY MUTATION" << std::endl;
-      mutate_key(data, parentKey, document);
+      mutate_name_object(data, parentKey, document);
     }
   }
 
@@ -369,7 +369,7 @@ void modify_values(my_mutator_t *data, rapidjson::Value& value, rapidjson::Value
     if(is_key(value)){
       if(should_mutate(data)){
         //std::cout << "KEY VALUE MUTATION" << std::endl;
-        mutate_key(data, value, document);
+        mutate_name_object(data, value, document);
       }
     }
 

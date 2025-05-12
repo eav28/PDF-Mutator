@@ -277,12 +277,10 @@ void modify_values(my_mutator_t *data, rapidjson::Value& value, rapidjson::Value
     // Mutate base64 encoded data
     if (is_string(parentKey) && std::string(parentKey.GetString()) == "data") {
       if(data->stream_mutation == 1){
-          //std::cout << "CUSTOM" << data->mutation_rate << std::endl;
-          mutate_stream(data, value, document); 
-        }else{
-          //std::cout << "RANDOM" << data->mutation_rate << std::endl;
-          mutate_stream_default(data, value, document); 
-        }
+        mutate_stream(data, value, document); 
+      }else{
+        mutate_stream_default(data, value, document); 
+      }
     }
   }
 }

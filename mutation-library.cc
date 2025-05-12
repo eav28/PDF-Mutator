@@ -1880,15 +1880,16 @@ void mutate_double(my_mutator_t *data, rapidjson::Value& value, rapidjson::Docum
   value.SetDouble(newValue);
 }
 
-void mutate_key(my_mutator_t *data, rapidjson::Value& key, rapidjson::Document& document){
+//void mutate_key(my_mutator_t *data, rapidjson::Value& key, rapidjson::Document& document){
 
+void mutate_name_object(my_mutator_t *data, rapidjson::Value& key, rapidjson::Document& document){
   std::string new_key;
 
-  if (randomness(data, 4) > 0) {
+  if (rand() % 4 > 0) {
 
     // Find random valid key
     size_t pdf_keys_len = sizeof(pdf_keys) / sizeof(pdf_keys[0]);
-    new_key = pdf_keys[randomness(data, pdf_keys_len)];
+    new_key = pdf_keys[rand() % pdf_keys_len];
 
   }else{
 
